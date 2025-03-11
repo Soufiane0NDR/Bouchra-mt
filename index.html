@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compte à Rebours de 40 jours</title>
+    <style>
+        /* Styles généraux */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('https://www.transparenttextures.com/patterns/flower-pattern.png'); /* Motif floral */
+            background-size: cover; /* Ajuste l'image pour couvrir tout l'écran */
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            background-attachment: fixed; /* Pour garder l'arrière-plan fixe pendant le défilement */
+        }
+
+        /* Conteneur principal */
+        .container {
+            background-color: #e4e4e4; /* Couleur de fond pour le texte */
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px; /* Taille ajustée pour mobile */
+            position: relative;
+            overflow: hidden;
+            color: #333; /* Texte sombre pour contraster avec le fond clair */
+        }
+
+        /* Motif décoratif en arrière-plan */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://www.transparenttextures.com/patterns/flower-pattern.png');
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        /* Style pour le message avec emoji */
+        .message {
+            font-size: 22px;  /* Ajusté pour les téléphones */
+            color: #333; /* Couleur sombre pour le texte sur fond clair */
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .emoji {
+            font-size: 30px;
+            margin-right: 10px;
+        }
+
+        /* Animation pour le texte */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Style pour le compte à rebours */
+        .countdown {
+            font-size: 28px; /* Réduit la taille pour s'adapter au mobile */
+            color: #FF6347;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 20px 0;
+            animation: countdownAnim 1s ease-out infinite;
+        }
+
+        @keyframes countdownAnim {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Styles pour l'image cachée */
+        .image {
+            display: none;
+            margin-top: 30px;
+            transition: opacity 1s ease-in-out;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 15px;
+            border: 5px solid #fff;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Pour une meilleure visibilité sur mobile */
+        @media (max-width: 600px) {
+            .message {
+                font-size: 18px; /* Taille réduite sur mobile */
+            }
+
+            .emoji {
+                font-size: 25px; /* Emoji plus petit */
+            }
+
+            .countdown {
+                font-size: 24px; /* Taille réduite pour le compte à rebours */
+            }
+
+            .container {
+                padding: 15px;  /* Moins de padding sur mobile pour mieux s'adapter */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Message personnalisé avec emoji -->
+        <div class="message">
+            <span class="emoji"></span> Salam Bouchra, merci pour ta patience 😊
+        </div>
+
+        <!-- Espace entre le message et le compte à rebours -->
+        <div id="countdown" class="countdown">Chargement...</div>
+
+        <!-- Image cachée qui apparaîtra après le compte à rebours -->
+        <div class="image" id="image">
+            <h2>Voici l'image après 40 jours !</h2>
+            <img src="https://i.imgur.com/TRVKe9A.jpg" alt="Image secrète">
+        </div>
+    </div>
+
+    <script>
+        // Calcul de la date de fin basée sur la date actuelle + 40 jours
+        var now = new Date();
+        var endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        endDate.setDate(endDate.getDate() + 40);  // Ajouter 40 jours à la date d'aujourd'hui
+
+        // Mettre à jour le compte à rebours toutes les secondes
+        var x = setInterval(function() {
+
+            var currentTime = new Date().getTime();
+            var distance = endDate.getTime() - currentTime;
+
+            // Calcul du temps restant
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Afficher le compte à rebours
+            document.getElementById("countdown").innerHTML = days + " jours " + hours + " heures " + minutes + " minutes " + seconds + " secondes ";
+
+            // Si le compte à rebours est terminé, afficher l'image
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "Le compte à rebours est terminé !";
+                document.getElementById("image").style.display = "block"; // Afficher l'image
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
